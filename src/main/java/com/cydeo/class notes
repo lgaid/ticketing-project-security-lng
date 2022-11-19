@@ -1,0 +1,63 @@
+Day 2 Security
+
+Review from Day 1 Security:
+    ==> As a Devs: Security means 2 things:
+            --> authentication
+            --> authorization
+
+    ==> Spring provides us everything for security
+
+        ==> How? We added a dependency nd SpringBoot provided us 3 things:
+
+            --> Spring provided that login box
+            --> Spring provided 1 encoded password
+            --> Spring provided 1 user object
+
+                --> based those three things it has been authenticated and authorized
+
+               IN OTHER WORDS:
+
+               Spring Structure:
+                   -> encode the password
+                   -> give the form
+                   -> give the user
+
+                    Questions:
+                   ----->Are we going to use the same form Spring provides to us?
+                            - NO. We will use our own log in form (which we need to introduce our form to Spring )
+
+                           ---> How to introduce my form?
+                                --> We use SecurityFilterChain in our Config file and add the @Bean
+                                        (since it is not My Interface or class to use @Component)
+
+                   ----->Are we going to use the same user Spring provides to us?
+                            -NO we have our own users in the DB (which we need to introduce our user to security)
+
+                        Why can't Spring validate my own users from the DB? Because I created user details
+                            and put in certain fields, another person is creating another user and putting other fields,
+                            which one is Spring supposed to standardize? Spring has it's own mechanism in SpringBoot
+                            that we can adapt to.
+                            (Services always works with UI)
+                                    - SpringBoot has a UserDetailsService Interface that has a method called loadUserByUsername
+                                    - Gets the User and validates it in the UI
+
+                            How are we introducing my user from the DB that got validated form UI to Spring user?
+
+                                    --> I wrote my Security service  and extended User details Service
+                                    --> Then Add the loadUserByUsername method to the Security Service Impl.
+                                    --> And using UserPrincipal as a general mapper to get a user that we want
+                                            to convert to User that SPRING understands.
+
+
+                   ----->Are we going to use the Spring encoded password ALL THE TIME?
+                            --> Of course not because when a user is created THEIR passwords in the application
+                                also need to be encoded as well.
+
+                                  --->  How to encode a password?
+                                        --> Use PasswordEncoder Interface provided from Spring Security
+
+
+
+
+
+
